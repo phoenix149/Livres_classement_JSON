@@ -16,9 +16,12 @@ let listAuthors = document.getElementById("listAuthors");
 let listCategories = document.getElementById("listCategories");
 let listBooks = document.getElementById("booksList");
 
+let searchbouton = document.getElementById("formulaire");
+
 // Ajout d'écouteurs d'événements pour les changements dans les listes déroulantes
 listAuthors.addEventListener("change", chargeByAuthor);
 listCategories.addEventListener("change", chargeBycategory);
+searchbouton.addEventListener("submit", changeBySearch);
 
 // Création d'un écouteur d'événement pour le chargement de la page
 window.addEventListener("DOMContentLoaded", jsonOnLoad);
@@ -146,27 +149,27 @@ function showBooks(_books) {
         }
         // On récupère l'isbn
         let nbIsbn = _books[y].isbn;
-        
+
         // Ici on viendra afficher le nombre de page du livre.
         let nbPage = _books[y].pageCount;
         let nbPageA;
 
         if (nbPage === 0 || nbPage === undefined || nbPage === null) {
-             nbPageA="";
-        } 
+            nbPageA = "";
+        }
         else {
-             nbPageA= "Nombre de pages : " + nbPage;
+            nbPageA = "Nombre de pages : " + nbPage;
         }
 
 
 
         // Crée l'élément HTML pour le livre
         book.innerHTML = '<img src="' + _books[y].thumbnailUrl + '"/>' +
-                         '<h1 class="booktitle"><span class="infobulle" title="' + _books[y].title + '">' + titre + '</span></h1>' +
-                         '<h6>'+"ISBN : " +  nbIsbn + '</h6>' +  
-                         '<h6>'+"Date de publication : " + datePubli + '</h6>' +
-                         '<h6>'+ nbPageA +'</h6>'+ 
-                         '<p><span class="infobulle" title="' + description + '">' + shortDescription + '</span></p>';
+            '<h1 class="booktitle"><span class="infobulle" title="' + _books[y].title + '">' + titre + '</span></h1>' +
+            '<h6>' + "ISBN : " + nbIsbn + '</h6>' +
+            '<h6>' + "Date de publication : " + datePubli + '</h6>' +
+            '<h6>' + nbPageA + '</h6>' +
+            '<p><span class="infobulle" title="' + description + '">' + shortDescription + '</span></p>';
 
         // Ajoute le livre à la liste des livres
         listBooks.appendChild(book);
@@ -188,7 +191,7 @@ function chargeByAuthor() {
     }
     else {
         // Réinitialise la valeur précédement entrée de la selection categorie
-        listCategories.value ="";
+        listCategories.value = "";
 
         // Boucle sur les livres pour filtrer par auteur
         for (let x = 0; x < booksList.length; x++) {
@@ -216,12 +219,12 @@ function chargeBycategory() {
     let bookByCategory = new Array();
 
     // Vérifie si aucune catégorie n'est sélectionnée
-    if (strCategory == undefined || strCategory == null || strCategory==="") {
+    if (strCategory == undefined || strCategory == null || strCategory === "") {
         return showBooks(booksList);
     }
     else {
         // Réinitialise la valeur précédement entrée de la selection auteur
-        listAuthors.value="";
+        listAuthors.value = "";
 
         // Boucle sur les livres pour filtrer par catégorie
         for (let x = 0; x < booksList.length; x++) {
@@ -237,4 +240,43 @@ function chargeBycategory() {
     // Trie la liste des livres filtrés et les affiche
     bookByCategory.sort();
     showBooks(bookByCategory);
+}
+
+function changeBySearch(event) {
+
+    event.preventDefault();
+console.log('coucou');
+    let bookByDesc = new Array();
+
+
+
+    let searchInput = document.getElementById("searchbarChamps").value;
+    // if (_books.longDescription == null || _books.longDescription == undefined ||  _books.longDescription == "" || _books.shortDescription == null || _books.shortDescription == undefined ||  _books.shortDescription == ""){
+    //     _books.longDescription = "";
+    //     _books.shortDescription = "";
+    // }
+    console.log(searchInput);
+    if (searchInput == undefined || searchInput == null || searchInput === "") {
+        alert("/!\ La valeur saise est incorrecte.")
+    }
+    else {
+
+
+        // Boucle sur les livres pour filtrer par catégorie
+        for (let x = 0; x < booksList.length; x++) {
+            let book = booksList[x];
+
+           
+            searchInput=searchInput.toLowerCase();
+
+            // Ajoute le livre à la liste si la catégorie correspond
+            if ((longDescription.includes(searchInput) == true) || (shortDescription.includes(searchInput) == true)) {
+                bookByDesc.push(book);
+            }
+        }
+    }
+    showBooks(bookByDesc);
+    console.log(bookByDesc);
+
+
 }

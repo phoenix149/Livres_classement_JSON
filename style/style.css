@@ -78,3 +78,25 @@ img {
 body {
   background-color: rgb(194, 154, 67);
 }
+
+#searchbarChamps {
+  float: right;
+  width: 10%;
+  border-color: grey;
+}
+#searchbutton {
+  float: right;
+  background-color: #fff;
+  color: grey;
+  border-color: grey;
+}
+#searchbutton:hover {
+  background-color: rgb(255, 178, 12);
+  color: #fff;
+  border-color: rgb(255, 178, 12);
+}
+.card:hover {
+  background-color: grey;
+  color: #fff;
+}
+
