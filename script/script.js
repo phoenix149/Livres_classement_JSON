@@ -11,6 +11,7 @@ let booksList = new Array();
 let authorsList = new Array();
 let categoriesList = new Array();
 
+
 // Récupération des éléments DOM pour les listes déroulantes et l'affichage des livres
 let listAuthors = document.getElementById("listAuthors");
 let listCategories = document.getElementById("listCategories");
@@ -22,6 +23,8 @@ let searchbouton = document.getElementById("formulaire");
 listAuthors.addEventListener("change", chargeByAuthor);
 listCategories.addEventListener("change", chargeBycategory);
 searchbouton.addEventListener("submit", changeBySearch);
+
+
 
 // Création d'un écouteur d'événement pour le chargement de la page
 window.addEventListener("DOMContentLoaded", jsonOnLoad);
@@ -243,40 +246,34 @@ function chargeBycategory() {
 }
 
 function changeBySearch(event) {
-
+    // Empêche le comportement par défaut du formulaire (soumission et rafraîchissement de la page)
     event.preventDefault();
-console.log('coucou');
-    let bookByDesc = new Array();
+    
+    // Initialise un tableau pour stocker les livres correspondant à la recherche
+    let bookByDesc = new Array;
 
+    // Récupère la valeur de la barre de recherche et la convertit en minuscules pour une comparaison cohérente
+    let searchInput = document.getElementById("searchbarChamps").value.toLowerCase();
 
-
-    let searchInput = document.getElementById("searchbarChamps").value;
-    // if (_books.longDescription == null || _books.longDescription == undefined ||  _books.longDescription == "" || _books.shortDescription == null || _books.shortDescription == undefined ||  _books.shortDescription == ""){
-    //     _books.longDescription = "";
-    //     _books.shortDescription = "";
-    // }
-    console.log(searchInput);
-    if (searchInput == undefined || searchInput == null || searchInput === "") {
-        alert("/!\ La valeur saise est incorrecte.")
-    }
-    else {
-
-
-        // Boucle sur les livres pour filtrer par catégorie
+    // Vérifie si l'entrée de recherche est vide, nulle ou indéfinie
+    if (searchInput === undefined || searchInput === null || searchInput === "") {
+        alert("/!\\ La valeur saisie est incorrecte.");
+    } else {
+        // Parcourt la liste des livres pour filtrer par description
         for (let x = 0; x < booksList.length; x++) {
             let book = booksList[x];
+            
+            // Convertit les descriptions longues et courtes en minuscules, ou les définit à une chaîne vide si elles sont nulles ou indéfinies
+            let longDesc = book.longDescription ? book.longDescription.toLowerCase() : "";
+            let shortDesc = book.shortDescription ? book.shortDescription.toLowerCase() : "";
 
-           
-            searchInput=searchInput.toLowerCase();
-
-            // Ajoute le livre à la liste si la catégorie correspond
-            if ((longDescription.includes(searchInput) == true) || (shortDescription.includes(searchInput) == true)) {
+            // Ajoute le livre à la liste si l'une des descriptions correspond à l'entrée de recherche
+            if (longDesc.includes(searchInput) || shortDesc.includes(searchInput)) {
                 bookByDesc.push(book);
             }
         }
     }
+
+    // Affiche les livres correspondant à la recherche
     showBooks(bookByDesc);
-    console.log(bookByDesc);
-
-
 }
